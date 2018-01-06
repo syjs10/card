@@ -1,0 +1,128 @@
+C51 COMPILER V9.54   MUSICALNOTE                                                           01/01/2018 16:36:26 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MUSICALNOTE
+OBJECT MODULE PLACED IN .\Objects\musicalNote.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE musicalNote.c LARGE OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\
+                    -Listings\musicalNote.lst) TABS(2) OBJECT(.\Objects\musicalNote.obj)
+
+line level    source
+
+   1          #include "musicalNote.h"
+   2          #include <intrins.h>
+   3          /**
+   4           * 延迟函数
+   5           *
+   6           * @param[in]  x     { parameter_description }
+   7           */
+   8          void delay(unsigned long x)
+   9          {
+  10   1        for (; x > 0; x--) {
+  11   2          _nop_();
+  12   2          _nop_();
+  13   2        }
+  14   1      }
+  15          /**
+  16           * 音符发声函数
+  17           *
+  18           * @param[in]  note  音符
+  19           * @param[in]  beat  节拍
+  20           */
+  21          void tune(int note, long beat) //音符
+  22          {
+  23   1        long i, n, end;
+  24   1        float f;
+  25   1      
+  26   1        if (note == 0) delay(beat / 10 * 9); //休止符
+  27   1        else
+  28   1        {
+  29   2          /**节拍**/
+  30   2          if (note > 1000 && note < 1100) {
+  31   3            i = beat;
+  32   3          } //1
+  33   2          else if (note > 500 && note < 600) {
+  34   3            i = beat / 2;
+  35   3          } //1/2
+  36   2          else if (note > 200 && note < 300) {
+  37   3            i = beat / 4;
+  38   3          } //1/4
+  39   2          else if (note > 700 && note < 800) {
+  40   3            i = beat / 4 * 3;
+  41   3          } //3/4
+  42   2          else if (note > 1200 && note < 1300) {
+  43   3            i = beat / 4 * 5;
+  44   3          } //4/5
+  45   2          else if (note > 1500 && note < 1600) {
+  46   3            i = beat / 2 * 3;
+  47   3          } //3/2
+  48   2          else if (note > 2000 && note < 2100) {
+  49   3            i = beat * 2;
+  50   3          } //2
+  51   2          switch (note % 100) {
+  52   3            case 11: f = 261.6; break;
+  53   3            case 12: f = 293.7; break;
+  54   3            case 13: f = 329.6; break;
+C51 COMPILER V9.54   MUSICALNOTE                                                           01/01/2018 16:36:26 PAGE 2   
+
+  55   3            case 14: f = 349.2; break;
+  56   3            case 15: f = 392.6; break;
+  57   3            case 16: f = 440.0; break;
+  58   3            case 17: f = 493.9; break;
+  59   3      
+  60   3            case 21: f = 523.3; break;
+  61   3            case 22: f = 587.3; break;
+  62   3            case 23: f = 659.3; break;
+  63   3            case 24: f = 698.5; break;
+  64   3            case 25: f = 784.0; break;
+  65   3            case 26: f = 880.0; break;
+  66   3            case 27: f = 987.8; break;
+  67   3      
+  68   3            case 31: f = 1045.5; break;
+  69   3            case 32: f = 1174.7; break;
+  70   3            case 33: f = 1318.5; break;
+  71   3            case 34: f = 1396.9; break;
+  72   3            case 35: f = 1568.0; break;
+  73   3            case 36: f = 1760.0; break;
+  74   3            case 37: f = 1975.5; break;
+  75   3      
+  76   3            default: break;
+  77   3          }
+  78   2          n = 1e5 / f / 2; //根据频率算出当前的半周期(us)
+  79   2          end = i;
+  80   2      
+  81   2          for (i = 2 * i / n; i > 0; i--) {//重复震动次数计算
+  82   3            sound = ~sound;
+  83   3            delay(n); //延迟半周期
+  84   3          }
+  85   2          delay(end / 10); //当前周期结束暂停时间
+  86   2        }
+  87   1      }
+  88          /**
+  89           * 音乐播放函数
+  90           *
+  91           * @param      b     节拍数组
+  92           * @param[in]  beat  一个节拍长度
+  93           * @param[in]  len   乐谱长度
+  94           */
+  95          void play(int* b, long beat, int len) //播放
+  96          {
+  97   1        int p;
+  98   1        for (p = 0; p < len; p = p + 1)
+  99   1        {
+ 100   2          tune(b[p], beat);   //单个音符传递给tune函数
+ 101   2        }
+ 102   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1233    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      4      37
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

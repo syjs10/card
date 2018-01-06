@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\main.obj" 
+TO ".\Objects\musicConduit" 
+PRINT(".\Listings\musicConduit.m51") RAMSIZE(256) 
